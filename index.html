@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="TINA+ probes residual visual knowledge in concept-erased diffusion models through diffusion-consistent text-free inversion."
+    />
+    <meta name="theme-color" content="#f4f0e8" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TINA+ — Diffusion-Consistent Text-Free Inversion" />
+    <meta
+      property="og:description"
+      content="Probing residual visual knowledge in unlearned diffusion models."
+    />
+    <meta
+      property="og:url"
+      content="https://qianlong0502.github.io/TINA-Plus-Homepage/"
+    />
+    <meta
+      property="og:image"
+      content="https://qianlong0502.github.io/TINA-Plus-Homepage/assets/images/hero.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>TINA+ | Diffusion-Consistent Text-Free Inversion</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <a class="wordmark" href="#top" aria-label="TINA+ home">
+        <span>TINA</span><strong>+</strong>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span><span></span>
+      </button>
+      <div class="header-actions">
+        <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+          <a href="#abstract" data-i18n="nav.abstract">Abstract</a>
+          <a href="#method" data-i18n="nav.method">Method</a>
+          <a href="#results" data-i18n="nav.results">Results</a>
+          <a href="#analysis" data-i18n="nav.analysis">Analysis</a>
+          <a href="#citation" data-i18n="nav.citation">Citation</a>
+        </nav>
+        <button class="language-switch" type="button" data-language-switch aria-label="切换到中文">中文</button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Diffusion-consistent visual probing</p>
+          <h1 data-i18n-html="hero.title">
+            <em>TINA+:</em> Probing Residual Visual Knowledge in Unlearned Diffusion Models via
+            Diffusion-Consistent Text-Free Inversion
+          </h1>
+          <p class="hero-deck" data-i18n="hero.deck">
+            TINA+ bypasses the text pathway and searches for diffusion-consistent visual
+            trajectories, testing whether erased models still retain generative knowledge of the
+            target concept.
+          </p>
+
+          <div class="authors" aria-label="Authors">
+            <a href="mailto:xiangqianlongcs@gmail.com">Qianlong Xiang</a>
+            <span>Miao Zhang</span>
+            <span>Kun Wang</span>
+            <span>Haoyu Zhang</span>
+            <span>Junhui Hou</span>
+            <span>Liqiang Nie</span>
+          </div>
+          <p class="affiliations" data-i18n="hero.affiliations">
+            Harbin Institute of Technology (Shenzhen) · City University of Hong Kong ·
+            Shandong University · Pengcheng Laboratory · Shenzhen Loop Area Institute
+          </p>
+
+          <div class="hero-actions" aria-label="Project resources">
+            <span class="button button-muted" aria-disabled="true" data-i18n="hero.paper">Paper · Coming soon</span>
+            <span class="button button-muted" aria-disabled="true" data-i18n="hero.code">Code · Coming soon</span>
+            <a class="button button-outline" href="#citation" data-i18n="hero.bibtex">BibTeX</a>
+          </div>
+        </div>
+
+        <figure class="hero-visual frame">
+          <img
+            src="assets/images/hero.jpg"
+            alt="Conceptual comparison between text-centric concept erasure, previous text attacks, and the text-free TINA+ attack"
+            fetchpriority="high"
+          />
+          <figcaption data-i18n="hero.caption">
+            Concept erasure may suppress generation triggered by the target text without deleting
+            the corresponding visual knowledge. TINA+ bypasses the text pathway and tests whether
+            that knowledge remains recoverable through a valid visual generative trajectory.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="thesis band" aria-labelledby="thesis-title">
+        <p class="section-index" data-i18n="thesis.index">Core question</p>
+        <h2 id="thesis-title" data-i18n-html="thesis.title">
+          Does removing a <span>text–image association</span> remove the
+          <span>visual knowledge itself?</span>
+        </h2>
+        <div class="thesis-grid">
+          <article>
+            <p class="card-label" data-i18n="thesis.old.label">The prevailing test</p>
+            <h3 data-i18n="thesis.old.title">Can a text prompt still generate the erased concept?</h3>
+            <p data-i18n="thesis.old.body">
+              Existing erasure methods and adversarial probes mainly operate through textual
+              conditions. A failed text attack therefore shows that the text-to-image route is
+              blocked, but does not establish that the model has forgotten how the concept looks.
+            </p>
+          </article>
+          <article class="accent-card">
+            <p class="card-label" data-i18n="thesis.new.label">Our visual test</p>
+            <h3 data-i18n="thesis.new.title">Can the model still follow a valid visual trajectory to that concept?</h3>
+            <p data-i18n="thesis.new.body">
+              TINA+ starts from a target image, searches for its seed latent under a null-text
+              condition, and then asks the same erased model to regenerate the concept along a
+              diffusion-consistent trajectory.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section prose-section" id="abstract" aria-labelledby="abstract-title">
+        <div class="section-heading">
+          <p class="section-index">01</p>
+          <h2 id="abstract-title" data-i18n="abstract.title">Abstract</h2>
+        </div>
+        <div class="abstract-copy">
+          <p class="lead" data-i18n="abstract.p1">
+            Although text-to-image diffusion models exhibit remarkable generative power, concept
+            erasure techniques are essential for their safe deployment to prevent the creation of
+            harmful content. Adversarial probes test whether erased concepts can still be recovered
+            and have driven the development of stronger defenses. Yet both erasure and probe methods
+            remain largely confined to a text-centric paradigm, testing whether the text-to-image
+            mapping is severed while overlooking whether the corresponding visual knowledge remains.
+          </p>
+          <p data-i18n="abstract.p2">
+            We instead adopt a visual perspective and ask whether diffusion inversion can still find
+            a generative trajectory that reconstructs visual instances of the erased concept. A
+            natural starting point is standard inversion, where a text prompt facilitates faithful
+            reconstruction. That textual condition is precisely what text-centric defenses suppress,
+            and using it would prevent a purely visual assessment. Operating under a null-text
+            condition removes this dependence, but amplifies the approximation errors of standard
+            inversion and hinders faithful trajectory recovery.
+          </p>
+          <p data-i18n-html="abstract.p3">
+            We therefore introduce <strong>TINA+</strong>, a diffusion-consistent Text-free
+            INversion Attack with an optimization-based inversion procedure that improves null-text
+            inversion accuracy. Beyond accuracy, we find that unconstrained inversion may discover
+            spurious trajectories and can even allow a randomly initialized diffusion model to
+            reconstruct the target concept. These trajectories are inconsistent with the diffusion
+            process and may falsely indicate the presence of residual visual knowledge.
+          </p>
+          <p data-i18n="abstract.p4">
+            TINA+ therefore introduces Diffusion-Consistent Trajectory Regularization. By penalizing
+            trajectories that fall far below the expected marginal energy evolution of diffusion,
+            TINA+ avoids spurious inversion paths while preserving its ability to recover erased
+            concepts through diffusion-consistent trajectories.
+          </p>
+          <p data-i18n="abstract.p5">
+            Experiments across twelve erasure methods, four concept-erasure tasks, and different
+            model architectures demonstrate that TINA+ reliably probes residual visual knowledge
+            through diffusion-consistent trajectories. The results provide stronger evidence that
+            current methods often obscure concepts by severing text-image links rather than
+            eliminating the underlying visual knowledge.
+          </p>
+        </div>
+      </section>
+
+      <section class="section method-section" id="method" aria-labelledby="method-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="section-index">02</p>
+            <h2 id="method-title" data-i18n="method.title">TINA+ in one trajectory</h2>
+          </div>
+          <p data-i18n="method.intro">
+            From a target image to a valid seed latent, then back through the same concept-erased
+            model under a null-text condition.
+          </p>
+        </div>
+
+        <figure class="paper-figure frame frame-wide figure-with-caption framework-figure">
+          <img
+            src="assets/images/framework.jpg"
+            alt="High-level framework of the TINA+ visual probe"
+            loading="lazy"
+          />
+          <figcaption data-i18n="method.framework.caption">TINA+ discovers a seed latent from a target image and feeds it back into the same erased model. Regeneration of the erased concept indicates that a corresponding visual generative pathway remains.</figcaption>
+        </figure>
+
+        <div class="method-detail-heading">
+          <p class="card-label" data-i18n="method.details.label">Technical overview</p>
+          <h3 data-i18n="method.details.title">Accurate inversion is necessary. A valid trajectory is equally important.</h3>
+        </div>
+
+        <figure class="paper-figure frame frame-wide figure-with-caption method-detail-figure">
+          <img
+            src="assets/images/method.jpg"
+            alt="Overview of the TINA+ method including fixed-point optimization, forward marginal initialization, and marginal energy regularization"
+            loading="lazy"
+          />
+          <figcaption data-i18n="method.details.caption">TINA+ combines fixed-point optimization with forward marginal initialization and marginal energy regularization, then generates from the optimized seed under the null-text condition.</figcaption>
+        </figure>
+
+        <div class="method-steps">
+          <article>
+            <span>01</span>
+            <h3 data-i18n="method.s1.title">Start visually</h3>
+            <p data-i18n="method.s1.body">Encode a representative target image and remove dependence on the erased prompt.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3 data-i18n="method.s2.title">Correct inversion</h3>
+            <p data-i18n="method.s2.body">Optimize each latent for fixed-point consistency instead of accepting accumulated DDIM approximation errors.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3 data-i18n="method.s3.title">Enforce validity</h3>
+            <p data-i18n="method.s3.body">Use forward marginal initialization and marginal energy regularization to suppress diffusion-inconsistent paths.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3 data-i18n="method.s4.title">Probe the model</h3>
+            <p data-i18n="method.s4.body">Generate from the discovered seed with the same erased model and test whether the concept reappears.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section results-section" id="results" aria-labelledby="results-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="section-index">03</p>
+            <h2 id="results-title" data-i18n="results.title">Evidence at scale</h2>
+          </div>
+          <p data-i18n="results.intro">
+            TINA+ remains effective in settings where attacks through textual conditions are
+            substantially suppressed.
+          </p>
+        </div>
+
+        <div class="stat-grid" aria-label="Evaluation coverage">
+          <article><strong>12</strong><span data-i18n="results.stat1">erasure methods</span></article>
+          <article><strong>4</strong><span data-i18n="results.stat2">concept-erasure tasks</span></article>
+          <article><strong>6</strong><span data-i18n="results.stat3">representative attacks</span></article>
+          <article><strong>2</strong><span data-i18n="results.stat4">model architecture families</span></article>
+        </div>
+
+        <div class="results-explorer" aria-labelledby="tables-title">
+          <div class="gallery-header">
+            <div>
+              <p class="card-label" data-i18n="tables.label">Quantitative results</p>
+              <h3 id="tables-title" data-i18n="tables.title">Main-table explorer</h3>
+            </div>
+            <p data-i18n="tables.hint">Choose a task, then swipe or scroll horizontally to inspect the full table. Higher ASR is better.</p>
+          </div>
+
+          <div class="table-tabs" role="tablist" aria-label="Main result tables">
+            <button type="button" role="tab" aria-selected="true" aria-controls="table-nudity" id="tab-nudity" data-table-tab="nudity" data-i18n="tables.nudity">Nudity</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="table-style" id="tab-style" data-table-tab="style" data-i18n="tables.style">Artistic style</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="table-object" id="tab-object" data-table-tab="object" data-i18n="tables.object">Object</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="table-celebrity" id="tab-celebrity" data-table-tab="celebrity" data-i18n="tables.celebrity">Celebrity identity</button>
+          </div>
+
+          <div class="table-panel active" role="tabpanel" id="table-nudity" aria-labelledby="tab-nudity" data-table-panel="nudity">
+            <p class="table-caption" data-i18n="tables.nudity.caption">Attack Success Rate (%) across eight nudity-erasure defenses.</p>
+            <div class="table-scroll" tabindex="0">
+              <table>
+                <thead><tr><th>Attack</th><th>ESD</th><th>FMN</th><th>UCE</th><th>MACE</th><th>RECE</th><th>AdvUn.</th><th>SalUn</th><th>STEREO</th><th>AVG.</th></tr></thead>
+                <tbody>
+                  <tr><th>PEZ</th><td>11.86</td><td>62.71</td><td>25.42</td><td>8.47</td><td>15.25</td><td>1.69</td><td>0.00</td><td>0.00</td><td>15.68</td></tr>
+                  <tr><th>MMA</th><td>13.10</td><td>67.00</td><td>32.60</td><td>6.00</td><td>22.80</td><td>1.70</td><td>1.70</td><td>5.50</td><td>18.80</td></tr>
+                  <tr><th>RAB</th><td>50.53</td><td>97.89</td><td>29.47</td><td>6.32</td><td>10.53</td><td>2.11</td><td>0.00</td><td>8.42</td><td>25.66</td></tr>
+                  <tr><th>P4D</th><td>69.01</td><td>97.89</td><td>76.06</td><td>75.35</td><td>66.20</td><td>18.31</td><td>15.49</td><td>24.65</td><td>55.37</td></tr>
+                  <tr><th>UDA</th><td>76.05</td><td>97.89</td><td>78.87</td><td>81.69</td><td>63.38</td><td>23.24</td><td>13.38</td><td>25.35</td><td>57.48</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>86.44</td><td>100.00</td><td>97.46</td><td>93.22</td><td>93.22</td><td>92.37</td><td>73.73</td><td>97.46</td><td>91.74</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-panel" role="tabpanel" id="table-style" aria-labelledby="tab-style" data-table-panel="style" hidden>
+            <p class="table-caption" data-i18n="tables.style.caption">Attack Success Rate (%) on Van Gogh artistic-style erasure.</p>
+            <div class="table-scroll" tabindex="0">
+              <table>
+                <thead><tr><th>Attack</th><th>ESD</th><th>FMN</th><th>AC</th><th>MACE</th><th>SPM</th><th>RECE</th><th>AdvUn.</th><th>STEREO</th><th>AVG.</th></tr></thead>
+                <tbody>
+                  <tr><th>PEZ</th><td>2.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>5.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.9</td></tr>
+                  <tr><th>MMA</th><td>0.0</td><td>2.0</td><td>6.0</td><td>0.0</td><td>14.0</td><td>14.0</td><td>0.0</td><td>0.0</td><td>4.5</td></tr>
+                  <tr><th>RAB</th><td>6.0</td><td>6.0</td><td>14.0</td><td>4.0</td><td>48.0</td><td>20.0</td><td>0.0</td><td>0.0</td><td>12.3</td></tr>
+                  <tr><th>P4D</th><td>30.0</td><td>54.0</td><td>68.0</td><td>42.0</td><td>78.0</td><td>62.0</td><td>0.0</td><td>0.0</td><td>41.8</td></tr>
+                  <tr><th>UDA</th><td>32.0</td><td>56.0</td><td>77.0</td><td>56.0</td><td>88.0</td><td>64.0</td><td>2.0</td><td>0.0</td><td>46.9</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>60.0</td><td>70.0</td><td>72.0</td><td>72.0</td><td>74.0</td><td>72.0</td><td>68.0</td><td>46.0</td><td>66.8</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-panel" role="tabpanel" id="table-object" aria-labelledby="tab-object" data-table-panel="object" hidden>
+            <p class="table-caption" data-i18n="tables.object.caption">Attack Success Rate (%) across four object concepts and eight erasure defenses.</p>
+            <div class="table-scroll table-scroll-tall" tabindex="0">
+              <table>
+                <thead><tr><th>Attack</th><th>FMN</th><th>SPM</th><th>ESD</th><th>EraseDiff</th><th>SalUn</th><th>SH</th><th>AdvUn.</th><th>STEREO</th><th>AVG.</th></tr></thead>
+                <tbody>
+                  <tr class="group"><th colspan="10">Church</th></tr>
+                  <tr><th>PEZ</th><td>32.00</td><td>34.00</td><td>2.00</td><td>2.00</td><td>12.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>10.25</td></tr>
+                  <tr><th>MMA</th><td>32.00</td><td>26.00</td><td>6.00</td><td>10.00</td><td>8.00</td><td>0.00</td><td>0.00</td><td>2.00</td><td>10.50</td></tr>
+                  <tr><th>RAB</th><td>58.00</td><td>68.00</td><td>14.00</td><td>28.00</td><td>4.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>21.50</td></tr>
+                  <tr><th>P4D</th><td>94.00</td><td>94.00</td><td>58.00</td><td>42.00</td><td>62.00</td><td>0.00</td><td>2.00</td><td>8.00</td><td>45.00</td></tr>
+                  <tr><th>UDA</th><td>98.00</td><td>94.00</td><td>66.00</td><td>50.00</td><td>68.00</td><td>4.00</td><td>8.00</td><td>10.00</td><td>49.75</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>92.00</td><td>90.00</td><td>90.00</td><td>94.00</td><td>90.00</td><td>90.00</td><td>92.00</td><td>78.00</td><td>89.50</td></tr>
+                  <tr class="group"><th colspan="10">Garbage Truck</th></tr>
+                  <tr><th>PEZ</th><td>36.00</td><td>18.00</td><td>0.00</td><td>4.00</td><td>4.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>7.75</td></tr>
+                  <tr><th>MMA</th><td>28.00</td><td>4.00</td><td>0.00</td><td>0.00</td><td>2.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>4.25</td></tr>
+                  <tr><th>RAB</th><td>40.00</td><td>34.00</td><td>8.00</td><td>20.00</td><td>20.00</td><td>0.00</td><td>2.00</td><td>0.00</td><td>15.50</td></tr>
+                  <tr><th>P4D</th><td>98.00</td><td>76.00</td><td>24.00</td><td>44.00</td><td>38.00</td><td>8.00</td><td>4.00</td><td>2.00</td><td>36.75</td></tr>
+                  <tr><th>UDA</th><td>100.00</td><td>80.00</td><td>32.00</td><td>46.00</td><td>36.00</td><td>6.00</td><td>8.00</td><td>6.00</td><td>39.25</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>90.00</td><td>86.00</td><td>74.00</td><td>76.00</td><td>78.00</td><td>84.00</td><td>80.00</td><td>66.00</td><td>79.25</td></tr>
+                  <tr class="group"><th colspan="10">Parachute</th></tr>
+                  <tr><th>PEZ</th><td>22.00</td><td>22.00</td><td>0.00</td><td>6.00</td><td>6.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>7.00</td></tr>
+                  <tr><th>MMA</th><td>32.00</td><td>20.00</td><td>0.00</td><td>8.00</td><td>6.00</td><td>2.00</td><td>2.00</td><td>0.00</td><td>8.75</td></tr>
+                  <tr><th>RAB</th><td>38.00</td><td>14.00</td><td>2.00</td><td>14.00</td><td>0.00</td><td>8.00</td><td>0.00</td><td>0.00</td><td>9.50</td></tr>
+                  <tr><th>P4D</th><td>100.00</td><td>92.00</td><td>50.00</td><td>68.00</td><td>70.00</td><td>24.00</td><td>14.00</td><td>2.00</td><td>52.50</td></tr>
+                  <tr><th>UDA</th><td>100.00</td><td>94.00</td><td>58.00</td><td>76.00</td><td>80.00</td><td>24.00</td><td>16.00</td><td>6.00</td><td>56.75</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>94.00</td><td>92.00</td><td>84.00</td><td>90.00</td><td>90.00</td><td>90.00</td><td>88.00</td><td>80.00</td><td>88.50</td></tr>
+                  <tr class="group"><th colspan="10">Tench</th></tr>
+                  <tr><th>PEZ</th><td>6.00</td><td>2.00</td><td>0.00</td><td>0.00</td><td>2.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>1.25</td></tr>
+                  <tr><th>MMA</th><td>24.00</td><td>16.00</td><td>2.00</td><td>0.00</td><td>2.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>5.50</td></tr>
+                  <tr><th>RAB</th><td>12.00</td><td>24.00</td><td>6.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>5.25</td></tr>
+                  <tr><th>P4D</th><td>94.00</td><td>82.00</td><td>32.00</td><td>8.00</td><td>18.00</td><td>6.00</td><td>8.00</td><td>0.00</td><td>31.00</td></tr>
+                  <tr><th>UDA</th><td>100.00</td><td>88.00</td><td>46.00</td><td>2.00</td><td>12.00</td><td>6.00</td><td>2.00</td><td>2.00</td><td>32.25</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>82.00</td><td>78.00</td><td>64.00</td><td>78.00</td><td>72.00</td><td>80.00</td><td>80.00</td><td>66.00</td><td>75.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-panel" role="tabpanel" id="table-celebrity" aria-labelledby="tab-celebrity" data-table-panel="celebrity" hidden>
+            <p class="table-caption" data-i18n="tables.celebrity.caption">Attack Success Rate (%) for three celebrity identities under ESD and STEREO.</p>
+            <div class="table-scroll" tabindex="0">
+              <table class="compact-table">
+                <thead><tr><th>Attack</th><th>Taylor Swift</th><th>Elon Musk</th><th>Adam Lambert</th></tr></thead>
+                <tbody>
+                  <tr class="group"><th colspan="4">ESD</th></tr>
+                  <tr><th>PEZ</th><td>2.00</td><td>0.00</td><td>4.00</td></tr>
+                  <tr><th>MMA</th><td>2.00</td><td>0.00</td><td>2.00</td></tr>
+                  <tr><th>RAB</th><td>12.00</td><td>6.00</td><td>4.00</td></tr>
+                  <tr><th>P4D</th><td>98.00</td><td>100.00</td><td>90.00</td></tr>
+                  <tr><th>UDA</th><td>98.00</td><td>100.00</td><td>92.00</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>96.00</td><td>98.00</td><td>94.00</td></tr>
+                  <tr class="group"><th colspan="4">STEREO</th></tr>
+                  <tr><th>PEZ</th><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+                  <tr><th>MMA</th><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+                  <tr><th>RAB</th><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+                  <tr><th>P4D</th><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+                  <tr><th>UDA</th><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+                  <tr class="ours"><th>TINA+</th><td>94.00</td><td>46.00</td><td>64.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="gallery-header qualitative-header">
+          <div>
+            <p class="card-label" data-i18n="gallery.label">Qualitative results</p>
+            <h3 data-i18n="gallery.title">Main-figure gallery</h3>
+          </div>
+          <div class="gallery-controls" aria-label="Qualitative gallery controls">
+            <button type="button" data-gallery-prev aria-label="Previous figure">←</button>
+            <div class="gallery-pagination" aria-label="Gallery pages">
+              <button class="gallery-dot active" type="button" data-gallery-page="0" aria-label="Figure 1" aria-current="true"></button>
+              <button class="gallery-dot" type="button" data-gallery-page="1" aria-label="Figure 2"></button>
+              <button class="gallery-dot" type="button" data-gallery-page="2" aria-label="Figure 3"></button>
+            </div>
+            <button type="button" data-gallery-next aria-label="Next figure">→</button>
+          </div>
+        </div>
+
+        <div class="gallery-stage">
+          <div class="figure-gallery" data-gallery-track>
+            <figure class="result-card gallery-slide">
+              <div class="image-wrap">
+                <img src="assets/images/nudity.jpg" alt="Qualitative comparison on eight nudity-erasure defenses" loading="lazy" />
+              </div>
+              <figcaption data-i18n-html="results.card0">
+                <span>Nudity erasure</span>
+                Across eight defenses, text-centric attacks often become clothed, neutral, or unrelated while TINA+ consistently recovers the target content.
+              </figcaption>
+            </figure>
+            <figure class="result-card gallery-slide">
+              <div class="image-wrap">
+                <img src="assets/images/cross-task.jpg" alt="Qualitative results on Van Gogh style and Tench object erasure" loading="lazy" />
+              </div>
+              <figcaption data-i18n-html="results.card1">
+                <span>Style &amp; object erasure</span>
+                Under STEREO, ordinary generation and UDA deviate from the target while TINA+ recovers target-specific visual content.
+              </figcaption>
+            </figure>
+            <figure class="result-card gallery-slide">
+              <div class="image-wrap">
+                <img src="assets/images/celebrity.jpg" alt="Qualitative identity recovery for Taylor Swift, Elon Musk, and Adam Lambert" loading="lazy" />
+              </div>
+              <figcaption data-i18n-html="results.card2">
+                <span>Celebrity identity erasure</span>
+                Text-centric attacks can be fully suppressed while recognizable identity-specific trajectories remain accessible to TINA+.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section analysis-section" id="analysis" aria-labelledby="analysis-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="section-index">04</p>
+            <h2 id="analysis-title" data-i18n="analysis.title">A probe must reject false evidence</h2>
+          </div>
+          <p data-i18n="analysis.intro">
+            A visually similar reconstruction is not sufficient. Even a random model can be
+            inverted through an invalid trajectory.
+          </p>
+        </div>
+
+        <div class="analysis-stack">
+          <article class="analysis-item">
+            <div class="analysis-copy">
+              <p class="card-label" data-i18n="analysis.a1.label">Trajectory diagnostics</p>
+              <h3 data-i18n="analysis.a1.title">Initialization aligns. Energy regularization keeps the path valid.</h3>
+              <p data-i18n="analysis.a1.body">
+                Forward Marginal Initialization provides an aligned starting point. The marginal
+                energy constraint then prevents optimization from exploiting a severe energy
+                collapse in the Random-UNet negative control.
+              </p>
+            </div>
+            <figure class="frame"><img src="assets/images/mechanism.jpg" alt="Trajectory energy diagnostics on Stable Diffusion and a randomly initialized UNet" loading="lazy" /></figure>
+          </article>
+
+          <article class="analysis-item analysis-item-reverse">
+            <div class="analysis-copy">
+              <p class="card-label" data-i18n="analysis.a2.label">Negative control</p>
+              <h3 data-i18n="analysis.a2.title">Invalid reconstructions become explicit failures.</h3>
+              <p data-i18n="analysis.a2.body">
+                DDIM and unconstrained TINA can reproduce recognizable target characteristics from
+                a model with no learned target knowledge. TINA+ suppresses these false positives
+                during optimization instead of merely rejecting them afterward.
+              </p>
+            </div>
+            <figure class="frame"><img src="assets/images/false-positive.jpg" alt="False-positive reconstruction comparison on a Random-UNet Taylor Swift benchmark" loading="lazy" /></figure>
+          </article>
+        </div>
+      </section>
+
+      <section class="section secondary-evidence" aria-labelledby="beyond-title">
+        <div class="section-heading">
+          <p class="section-index">05</p>
+          <h2 id="beyond-title" data-i18n="beyond.title">Further Analysis</h2>
+        </div>
+        <div class="result-grid">
+          <figure class="result-card">
+            <div class="image-wrap image-wrap-light">
+              <img src="assets/images/embedding.jpg" alt="t-SNE visualization of optimized noises and internal UNet features" loading="lazy" />
+            </div>
+            <figcaption data-i18n-html="beyond.card1">
+              <span>Internal representations</span>
+              Noise-like seed latents elicit clearly separable, concept-specific responses inside erased UNets.
+            </figcaption>
+          </figure>
+          <figure class="result-card">
+            <div class="image-wrap image-wrap-light">
+              <img src="assets/images/dit.jpg" alt="TINA+ qualitative results on the DiT-based PixArt model" loading="lazy" />
+            </div>
+            <figcaption data-i18n-html="beyond.card2">
+              <span>Different model architectures</span>
+              The vulnerability extends from UNet-based models to the DiT-based PixArt model.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section citation-section" id="citation" aria-labelledby="citation-title">
+        <div class="section-heading split-heading">
+          <div>
+            <p class="section-index">06</p>
+            <h2 id="citation-title" data-i18n="citation.title">Citation</h2>
+          </div>
+          <p data-i18n="citation.note">This entry will be updated when the paper is publicly released.</p>
+        </div>
+        <div class="citation-box">
+          <pre id="bibtex"><code>@misc{xiang2026tinaplus,
+  title  = {TINA+: Probing Residual Visual Knowledge in Unlearned
+            Diffusion Models via Diffusion-Consistent Text-Free Inversion},
+  author = {Xiang, Qianlong and Zhang, Miao and Wang, Kun and Zhang, Haoyu
+            and Hou, Junhui and Nie, Liqiang},
+  year   = {2026}
+}</code></pre>
+          <button class="copy-button" type="button" data-copy-bibtex data-i18n="citation.copy">Copy BibTeX</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="wordmark" href="#top"><span>TINA</span><strong>+</strong></a>
+      <p data-i18n="footer.tagline">Diffusion-consistent text-free inversion for evaluating concept erasure.</p>
+      <p data-i18n="footer.copyright">© 2026 TINA+ authors</p>
+    </footer>
+  </body>
+</html>
