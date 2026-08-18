@@ -21,7 +21,7 @@ const translations = {
     "hero.eyebrow": "扩散一致的视觉探测",
     "hero.title": "<em>TINA+：</em>通过扩散一致的无文本反演探测遗忘扩散模型中的残留视觉知识",
     "hero.deck": "TINA+ 完全绕过文本路径并寻找扩散一致的视觉生成轨迹，从而检验擦除后的模型是否仍保留目标概念的生成知识。",
-    "hero.affiliations": "哈尔滨工业大学（深圳） · 香港城市大学 · 山东大学 · 鹏城实验室 · 深圳河套学院",
+    "hero.affiliations": "哈尔滨工业大学（深圳） · 香港城市大学 · 新加坡国立大学 · 鹏城实验室 · 深圳河套学院",
     "hero.paper": "论文 · 即将公开",
     "hero.code": "代码 · 即将公开",
     "hero.bibtex": "BibTeX",
